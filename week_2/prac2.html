@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fetch 시작하기</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script></script>
+  </head>
+  <script>
+    fetch("http://spartacodingclub.shop/sparta_api/seoulair")
+      .then((res) => {
+        // return res;
+        return res.json();
+      }) // why json ? => because we may get the data in different formats such as in XML, JSON or HTML
+      // In other words, it extracts only the JSON part from the response and converts it into a JavaScript object.
+      .then((data) => {
+        console.log(typeof data);
+        console.log(data["RealtimeCityAir"]["row"][0]);
+        let rows = data["RealtimeCityAir"]["row"];
+        rows.forEach((a) => {
+          // 미세먼지 데이터 리스트의 길이만큼 반복해서 하나씩 개발자 도구에서 보기
+          console.log(a);
+          console.log(a["MSRSTE_NM"], a["IDEX_MVL"]);
+        });
+      });
+  </script>
+  <body>
+    Fetch 연습을 위한 페이지 0
+  </body>
+</html>

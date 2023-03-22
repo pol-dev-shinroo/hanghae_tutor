@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+  </head>
+  <script>
+    function checkResult() {
+      // console.log($("#q1").text());
+      let people = [
+        { name: "서영", age: 24 },
+        { name: "현아", age: 30 },
+        { name: "영환", age: 12 },
+        { name: "서연", age: 15 },
+        { name: "지용", age: 18 },
+        { name: "예지", age: 36 },
+      ];
+      $("#q1").empty();
+      people.forEach(({ name }) => {
+        let temp_html = `<p>${name}</p>`;
+        $("#q1").append(temp_html);
+      });
+    }
+    checkResult();
+  </script>
+  <body>
+    <div id="q1">테스트</div>
+  </body>
+</html>
