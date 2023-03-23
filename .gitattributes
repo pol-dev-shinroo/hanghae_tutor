@@ -1,3 +1,3 @@
 * linguist-detectable=true
 *.html linguist-detectable=false
-*.py linguist-language=SQL
+*.py linguist-language=Python
