@@ -123,16 +123,59 @@
               let id = a["_id"];
 
               let temp_html = `<div class="card" id=${id}>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>${comment}</p>
-                                    <footer class="blockquote-footer">${name}</footer>
-                                </blockquote>
-                                <button onclick="delete_comment('${id}')">삭제</button>
-                            </div>
-                        </div>`;
+                                <div class="card-body">
+                                   <blockquote class="blockquote mb-0">
+                                        <p>${comment}</p>
+                                        <footer class="blockquote-footer">${name}</footer>
+                                   </blockquote>
+                                    <div class="intro_parts">
+                                      <button onclick="delete_comment('${id}')">삭제</button>
+                                      <button onclick="open_update('${id}')">수정하기</button>                                     
+                                    </div>
+                                    <div class="update_parts" style="display: none">
+                                      <input type="text" value='${comment}'/>
+                                      <button onclick="update_comment('${id}')">수정완료</button>
+                                      <button onclick="cancel_update('${id}')">취소하기</button>
+                                    </div>
+                                </div>
+                               </div>`;
               $("#comment-list").append(temp_html);
             });
+          });
+      }
+
+      function open_update(id) {
+        console.log(id);
+        $(`#${id} .card-body .intro_parts`).hide();
+        $(`#${id} .card-body .update_parts`).show();
+      }
+
+      function cancel_update(id) {
+        console.log(id);
+        $(`#${id} .card-body .intro_parts`).show();
+        $(`#${id} .card-body .update_parts`).hide();
+      }
+
+      function update_comment(id) {
+        console.log(id);
+        $(`#${id} .card-body .intro_parts`).show();
+        $(`#${id} .card-body .update_parts`).hide();
+        let formData = new FormData();
+
+        let new_comment = $(`#${id} .card-body .update_parts input`).val();
+        formData.append("id", id);
+        formData.append("new_comment", new_comment);
+
+        fetch("/guestbook", {
+          method: "PUT",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data["result"] === "success") {
+              alert("수정되었슴다!");
+              window.location.reload();
+            }
           });
       }
 
@@ -140,12 +183,12 @@
         console.log(id);
         let formData = new FormData();
         formData.append("id", id);
-        fetch("/delete_updatebook", { method: "DELETE", body: formData })
+        fetch("/guestbook", { method: "DELETE", body: formData })
           .then((res) => res.json())
           .then((data) => {
-            alert(data);
             if (data["result"] === "success") {
-              $(id).remove();
+              $(`${id}`).remove();
+              alert("삭제되었슴다!");
               window.location.reload();
             }
           });
